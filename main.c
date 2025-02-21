@@ -76,17 +76,18 @@ int ft_atoi(const char *nptr)
     if (nptr[x] == '+' || nptr[x] == '-')
         if (nptr[x++] == '-')
             signe *= -1;
+        if(!nptr[x])
+            exit(write (2,"error in the number !\n",23));
     while (nptr[x] >= '0' && nptr[x] <= '9')
     {
-        if (signe == 1 && (num > INT_MAX / 10 || (num == INT_MAX / 10 && (nptr[x] - '0') > INT_MAX % 10)))
+         if (signe == 1 && (num > INT_MAX / 10 || (num == INT_MAX / 10 && (nptr[x] - '0') > INT_MAX % 10)))
              exit(write(2, "error: number exceeds INT_MAX\n", 31));
         else if (signe == -1 && (num > (long)INT_MAX / 10 || (num == (long)INT_MAX / 10 && (nptr[x] - '0') > ((long)INT_MAX % 10 + 1))))
             exit(write(2, "error: number is less than INT_MIN\n", 36));
         num = num * 10 + (nptr[x] - '0');
         x++;
     }
-    if (nptr[x] == '+' || nptr[x] == '-' || (nptr[x] >= 'a' && nptr[x] <= 'z') 
-    || (nptr[x] >= 'A' && nptr[x] <= 'Z') || (num > INT_MAX && num < INT_MIN))
+    if (nptr[x] != '\0' && (!(nptr[x] >= '1' && nptr[x] <= '9')) )
             exit(write (2,"error in the number !\n",23));
     return (num * signe);
 }
@@ -134,6 +135,8 @@ char *prepare_str(int argc, char *argv[])
     else if(argc >= 2)
     {
         counter = counter_args(argc, argv);
+        if(counter == -1)
+            exit(write (2,"error in the number !\n",23));
         str = malloc(counter + 1);
         if  (str == NULL)
             return NULL;
@@ -189,7 +192,30 @@ t_list *list_create(char **tab)
     }
     return (heada);
 }
+void check_list(t_list *heada)
+{
+    t_list *trav = NULL;
+    t_list *next = NULL;
 
+    next = heada;
+    //trav = (*heada)->next;
+    while(next)
+    {
+        trav = next->next;
+        while (trav)
+        {
+            if (*(int*)next->data == *(int*)trav->data)
+            {
+                ft_lstclear(&heada);
+                exit(write (2,"Error , Duplicated number !",28));
+            }
+
+            trav = trav->next;
+        }
+        next = next->next;
+    }
+
+}
 int main (int argc, char *argv[])
 {
     t_list *heada;
@@ -200,8 +226,9 @@ int main (int argc, char *argv[])
         return 1;
     char **tab = ft_split(str, ' ');
     free(str);
-    printf("here !\n");
     heada = list_create(tab);
+    free_tab(tab);
+    check_list(heada);
     t_list *tmp = heada;
     while (tmp)
     {
@@ -210,6 +237,5 @@ int main (int argc, char *argv[])
     }
     printf("\n");
     ft_lstclear(&heada);
-    free_tab(tab);
   return (0);
 }
