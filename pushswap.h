@@ -3,7 +3,8 @@
 
 #include  <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <unistd.h>
+#include <limits.h>
 
 typedef struct s_list
 {
@@ -11,12 +12,6 @@ typedef struct s_list
     struct s_list *next;
 } t_list;
 
-// typedef struct s_ps
-// {
-//     t_list *heada;
-//     t_list *headb;
-    
-// } t_ps;
 size_t	ft_strlen(const char *str);
 char	*ft_strcat(char *dest, const char *src);
 int  counter_args( int argc, char *argv[]);

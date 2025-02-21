@@ -74,19 +74,20 @@ int ft_atoi(const char *nptr)
     while (nptr[x] == '\t' || nptr[x] == ' ' || (nptr[x] >= 9 && nptr[x] <= 13))
         x++;
     if (nptr[x] == '+' || nptr[x] == '-')
-    {
-        if (nptr[x] == '-')
-        {
+        if (nptr[x++] == '-')
             signe *= -1;
-        }
-        x++;
-    }
     while (nptr[x] >= '0' && nptr[x] <= '9')
     {
-        num = (num * 10);
-        num = num + (nptr[x] - 48);
+        if (signe == 1 && (num > INT_MAX / 10 || (num == INT_MAX / 10 && (nptr[x] - '0') > INT_MAX % 10)))
+             exit(write(2, "error: number exceeds INT_MAX\n", 31));
+        else if (signe == -1 && (num > (long)INT_MAX / 10 || (num == (long)INT_MAX / 10 && (nptr[x] - '0') > ((long)INT_MAX % 10 + 1))))
+            exit(write(2, "error: number is less than INT_MIN\n", 36));
+        num = num * 10 + (nptr[x] - '0');
         x++;
     }
+    if (nptr[x] == '+' || nptr[x] == '-' || (nptr[x] >= 'a' && nptr[x] <= 'z') 
+    || (nptr[x] >= 'A' && nptr[x] <= 'Z') || (num > INT_MAX && num < INT_MIN))
+            exit(write (2,"error in the number !\n",23));
     return (num * signe);
 }
 
@@ -106,8 +107,8 @@ void	ft_lstclear(t_list **lst)
 		ptr = ptr2;
 	}
 	*lst = NULL;
-
 }
+
 void free_tab(char **tab)
 {
     char **tmp = tab;
@@ -167,10 +168,16 @@ void list_assign(char **tab, t_list *heada)
 t_list *list_create(char **tab)
 {
     t_list *heada = NULL;
-    int i = 0;
+    t_list *node;
+    int i;
+    int check;
+
+    i = 0;
     while (tab[i])
     {   
-        t_list *node = ft_lstnew(ft_atoi(tab[i]));
+        check = ft_atoi(tab[i]);
+        if (check<INT_MAX || check >INT_MIN)
+            node = ft_lstnew(check);
         if (node == NULL)
         {
             printf("Error\n");
@@ -180,7 +187,7 @@ t_list *list_create(char **tab)
         heada = node;
         i++;
     }
-    return heada;
+    return (heada);
 }
 
 int main (int argc, char *argv[])
@@ -204,5 +211,5 @@ int main (int argc, char *argv[])
     printf("\n");
     ft_lstclear(&heada);
     free_tab(tab);
-    return 0;
+  return (0);
 }
