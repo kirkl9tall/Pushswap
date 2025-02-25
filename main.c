@@ -1,52 +1,5 @@
 #include "pushswap.h"
 
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	x;
-
-	x = 0;
-	while (str[x])
-		x++;
-	return (x);
-}
-
-char	*ft_strcat(char *dest, const char *src)
-{
-	size_t	sd;
-	size_t	y;
-
-	sd = 0;
-	y = 0;
-	while (dest[sd])
-		sd++;
-	while (src[y]) 
-	{
-		dest[sd + y] = src[y];
-		y++;
-	}
-	dest[sd + y] = '\0'; 
-	return (dest);
-}
-int  counter_args( int argc, char *argv[])
-{
-    int counter = 0;
-    int i = 1;
-    while (i < argc)
-    {
-        int j = 0;
-        while (argv[i][j])
-        {
-            counter++;
-            j++;
-        }
-        if (i < argc - 1)
-            counter++;
-        i++;
-    }
-    return counter;
-}
-
 t_list	*ft_lstnew(int content)
 {
 	t_list	*node;
@@ -59,38 +12,10 @@ t_list	*ft_lstnew(int content)
 		return (NULL);
 	*(int*)node->data = content;
 	node->next = NULL;
+    node->index = 0;
 	return (node);
 }
 
-int ft_atoi(const char *nptr)
-{
-    int x;
-    int signe;
-    int num;
-
-    x = 0;
-    signe = 1;
-    num = 0;
-    while (nptr[x] == '\t' || nptr[x] == ' ' || (nptr[x] >= 9 && nptr[x] <= 13))
-        x++;
-    if (nptr[x] == '+' || nptr[x] == '-')
-        if (nptr[x++] == '-')
-            signe *= -1;
-        if(!nptr[x])
-            exit(write (2,"error in the number !\n",23));
-    while (nptr[x] >= '0' && nptr[x] <= '9')
-    {
-         if (signe == 1 && (num > INT_MAX / 10 || (num == INT_MAX / 10 && (nptr[x] - '0') > INT_MAX % 10)))
-             exit(write(2, "error: number exceeds INT_MAX\n", 31));
-        else if (signe == -1 && (num > (long)INT_MAX / 10 || (num == (long)INT_MAX / 10 && (nptr[x] - '0') > ((long)INT_MAX % 10 + 1))))
-            exit(write(2, "error: number is less than INT_MIN\n", 36));
-        num = num * 10 + (nptr[x] - '0');
-        x++;
-    }
-    if (nptr[x] != '\0' && (!(nptr[x] >= '1' && nptr[x] <= '9')) )
-            exit(write (2,"error in the number !\n",23));
-    return (num * signe);
-}
 
 void	ft_lstclear(t_list **lst)
 {
@@ -121,37 +46,6 @@ void free_tab(char **tab)
     free(tab);
 }
 
-char *prepare_str(int argc, char *argv[])
-{
-    char *str;
-    int  counter = 0;
-    int i;
-
-    if (argc < 2)
-    {
-        printf("Usage: %s <list of integers>\n", argv[0]);
-        return NULL;
-    }
-    else if(argc >= 2)
-    {
-        counter = counter_args(argc, argv);
-        if(counter == -1)
-            exit(write (2,"error in the number !\n",23));
-        str = malloc(counter + 1);
-        if  (str == NULL)
-            return NULL;
-        str[0] = '\0';
-        i = 1;
-        while (i < argc)
-        {
-            str = ft_strcat(str, argv[i]);
-            if (i < argc - 1)
-                ft_strcat(str, " ");
-            i++;
-        }
-    }
-    return str;
-}
 void list_assign(char **tab, t_list *heada)
 {
     int i = 0;
@@ -171,34 +65,37 @@ void list_assign(char **tab, t_list *heada)
 t_list *list_create(char **tab)
 {
     t_list *heada = NULL;
+    t_list *tail = NULL;
     t_list *node;
     int i;
-    int check;
 
     i = 0;
     while (tab[i])
     {   
-        check = ft_atoi(tab[i]);
-        if (check<INT_MAX || check >INT_MIN)
-            node = ft_lstnew(check);
+        node = ft_lstnew(ft_atoi(tab[i]));
         if (node == NULL)
+            return(write(2,"Error\n",7),NULL);
+        if (heada == NULL)
         {
-            printf("Error\n");
-            return NULL;
+            heada = node;
+            tail = node;
         }
-        node->next = heada;
-        heada = node;
+        else 
+        {
+            tail->next = node;
+            tail = node;   
+        }
         i++;
     }
     return (heada);
 }
+
 void check_list(t_list *heada)
 {
     t_list *trav = NULL;
     t_list *next = NULL;
 
     next = heada;
-    //trav = (*heada)->next;
     while(next)
     {
         trav = next->next;
@@ -214,8 +111,131 @@ void check_list(t_list *heada)
         }
         next = next->next;
     }
-
 }
+
+int  indexing(t_list *heada)
+{
+    t_list *first;
+    t_list *second;
+    int index;
+    int qts;
+
+    qts = 0;
+    first = heada;
+    while (first)
+    {
+        index = 0;
+        second = heada;
+        while (second)
+        {
+            if (*(int *)first->data > *(int *)second->data)
+                index++;
+            second = second->next;
+        }
+        first->index = index;
+        first = first->next;
+        qts++;
+    }
+    return (qts);
+}
+char *prepare_str(int argc, char *argv[])
+{
+    char *str;
+    int  counter = 0;
+    int i;
+    int k;
+
+    if (argc < 2)
+        return (NULL);
+    else if(argc >= 2)
+    {
+        counter = counter_args(argc, argv);
+        if(counter == -1)
+            exit(write (2,"error in the number !\n",23));
+        str = malloc(counter + 1);
+        if  (str == NULL)
+            return NULL;
+        str[0] = '\0';
+        i = 1;
+        while (i < argc)
+        {
+            k = 0;
+            while (argv[i][k] &&  (argv[i][k]  == ' ' || argv[i][k]  == '\t'))
+                    k++;
+            if (argv[i][k] == '\0')
+                return (free (str),NULL);
+            str = ft_strcat(str, argv[i]);
+            if (i < argc - 1)
+                ft_strcat(str, " ");
+            i++;
+        }
+    }
+    return str;
+}
+
+void sort2(t_list *heada)
+{
+    if (*(int*)heada->data > *(int*)heada->next->data)
+        sa(heada);
+}
+void sort3(t_list **heada,t_list **headb)
+{
+    t_list *min;
+    t_list *trav;
+
+    min = *heada;
+    trav = *heada;
+    while (trav)
+    {
+        if (*(int*)trav->data < *(int*)min->data)
+            min = trav;
+        trav = trav->next;
+    }
+    while (*(int*)(*heada)->data != *(int*)min->data)
+        ra(heada);
+    pb(heada,headb);
+    sort2(*heada);
+    pa(heada,headb);
+}
+void sort4 (t_list **heada , t_list **headb)
+{
+    t_list *min;
+    t_list *trav;
+
+    trav = *heada;
+    min = *heada;
+    while (trav)
+    {
+        if (*(int*)trav->data < *(int*)min->data)
+            min = trav;
+        trav = trav->next;
+    }
+    while (*(int*)(*heada)->data != *(int*)min->data)
+        ra(heada);
+    pb(heada,headb);
+    sort3(heada,headb);
+    pa(heada,headb);
+}
+void    sort5(t_list **heada , t_list **headb)
+{
+    t_list *min;
+    t_list *trav;
+
+    trav = *heada;
+    min = *heada;
+    while (trav)
+    {
+        if (*(int*)trav->data < *(int*)min->data)
+            min = trav;
+        trav = trav->next;
+    }
+    while (*(int*)(*heada)->data != *(int*)min->data)
+        ra(heada);
+    pb(heada,headb);
+    sort4(heada,headb);
+    pa(heada,headb);
+}
+
 int main (int argc, char *argv[])
 {
     t_list *heada;
@@ -223,19 +243,27 @@ int main (int argc, char *argv[])
     char *str;
     str = prepare_str(argc, argv);
     if (str == NULL)
-        return 1;
+        exit(write (2,"Error string khawi\n",19));
     char **tab = ft_split(str, ' ');
     free(str);
     heada = list_create(tab);
     free_tab(tab);
     check_list(heada);
-    t_list *tmp = heada;
-    while (tmp)
+    int q = indexing(heada);
+    if (q == 5)
+        sort5 (&heada,&headb);
+    else if (q == 4)
+        sort4 (&heada,&headb);
+    else if (q == 3)
+        sort3 (&heada,&headb);
+    else if (q == 2)
+        sort2 (heada);
+    t_list *trav = heada;
+    while (trav)
     {
-        printf("%d ", *(int*)tmp->data);
-        tmp = tmp->next;
+        printf("[%d]\n", *(int *)trav->data);
+        trav = trav->next;
     }
-    printf("\n");
     ft_lstclear(&heada);
   return (0);
 }

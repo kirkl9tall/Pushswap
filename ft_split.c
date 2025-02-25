@@ -100,6 +100,5 @@ char	**ft_split(char *s, char c)
 	if (p == NULL)
 		return (NULL);
 	allocation(s, p, c);
-	
 	return (amar(s, p, c, countty));
 }
