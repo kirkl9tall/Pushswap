@@ -33,7 +33,7 @@ void pa(t_list **heada, t_list **headb)
 {
     t_list *tmp;
 
-    if (*headb == NULL)
+    if (headb == NULL || *headb == NULL)
         return;
     tmp = *headb;
     *headb = (*headb)->next;
@@ -46,7 +46,7 @@ void pb(t_list **heada, t_list **headb)
 {
     t_list *tmp;
 
-    if (*heada == NULL)
+    if (heada == NULL || *heada == NULL)
         return;
     tmp = *heada;
     *heada = (*heada)->next;

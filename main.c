@@ -173,6 +173,27 @@ char *prepare_str(int argc, char *argv[])
     return str;
 }
 
+int calc_exit(t_list * head,t_list * min)
+{
+    t_list *trav;
+    int toptomin;
+    int mintobot;
+
+    trav = head;
+    toptomin = 0;
+    mintobot = 0;
+        while (*(int*)trav->data != *(int*)min->data)
+        {
+            trav = trav->next;
+            toptomin++; 
+        }
+        while(trav->next != NULL)
+        {
+            trav = trav->next;
+            mintobot++;
+        }
+        return (toptomin > mintobot);
+}
 void sort2(t_list *heada)
 {
     if (*(int*)heada->data > *(int*)heada->next->data)
@@ -191,12 +212,18 @@ void sort3(t_list **heada,t_list **headb)
             min = trav;
         trav = trav->next;
     }
-    while (*(int*)(*heada)->data != *(int*)min->data)
-        ra(heada);
+    if (calc_exit(*heada, min) == 1)
+        while (*(int *)(*heada)->data != *(int *)min->data)
+            rra(heada);
+    else
+        while (*(int *)(*heada)->data != *(int *)min->data)
+            ra(heada);
     pb(heada,headb);
     sort2(*heada);
     pa(heada,headb);
 }
+
+
 void sort4 (t_list **heada , t_list **headb)
 {
     t_list *min;
@@ -210,8 +237,12 @@ void sort4 (t_list **heada , t_list **headb)
             min = trav;
         trav = trav->next;
     }
-    while (*(int*)(*heada)->data != *(int*)min->data)
-        ra(heada);
+    if (calc_exit(*heada, min) == 1)
+        while (*(int *)(*heada)->data != *(int *)min->data)
+            rra(heada);
+    else
+        while (*(int *)(*heada)->data != *(int *)min->data)
+            ra(heada);
     pb(heada,headb);
     sort3(heada,headb);
     pa(heada,headb);
@@ -229,13 +260,69 @@ void    sort5(t_list **heada , t_list **headb)
             min = trav;
         trav = trav->next;
     }
-    while (*(int*)(*heada)->data != *(int*)min->data)
-        ra(heada);
+    if (calc_exit(*heada, min) == 1)
+        while (*(int *)(*heada)->data != *(int *)min->data)
+            rra(heada);
+    else
+        while (*(int *)(*heada)->data != *(int *)min->data)
+            ra(heada);
     pb(heada,headb);
     sort4(heada,headb);
     pa(heada,headb);
 }
+int check_bits (int q)
+{
+    int bits;
 
+    bits =0;
+        while (q)
+        {
+            q >>= 1;
+            bits++;
+        }
+        return (bits);
+}
+
+void radix (t_list **heada, t_list **headb, int q)
+{
+    t_list *trava;
+    int bits;
+    int bit;
+
+    bits = check_bits(q);
+    bit = 0;
+    while (bit < bits)
+    {
+        trava = *heada;
+        int count = q;
+        while (count--)
+        {
+            if ((trava->index >> bit ) & 1)
+                ra(heada);
+            else
+                pb(heada,headb);
+        }
+        while (*headb)
+            pa(heada,headb);
+        bit++;
+    }
+}
+
+void choice( t_list **heada , t_list **headb , int q )
+{
+    if (q == 5)
+        sort5 (heada,headb);
+    else if (q == 4)
+        sort4 (heada,headb);
+    else if (q == 3)
+        sort3 (heada,headb);
+    else if (q == 2)
+        sort2 (*heada);
+    else if (q == 1)
+        write (1," free w exit layr7em l walidin",31);
+    else
+        radix (heada,headb,q);
+}
 int main (int argc, char *argv[])
 {
     t_list *heada;
@@ -250,14 +337,7 @@ int main (int argc, char *argv[])
     free_tab(tab);
     check_list(heada);
     int q = indexing(heada);
-    if (q == 5)
-        sort5 (&heada,&headb);
-    else if (q == 4)
-        sort4 (&heada,&headb);
-    else if (q == 3)
-        sort3 (&heada,&headb);
-    else if (q == 2)
-        sort2 (heada);
+    choice(&heada,&headb,q);
     t_list *trav = heada;
     while (trav)
     {
