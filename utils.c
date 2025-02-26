@@ -1,21 +1,32 @@
-#include  "pushswap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 22:27:18 by abismail          #+#    #+#             */
+/*   Updated: 2025/02/26 23:53:51 by abismail         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pushswap.h"
 
 t_list	*ft_lstnew(int content)
 {
 	t_list	*node;
 
 	node = malloc(sizeof(t_list));
-    if (!node)
+	if (!node)
 		return (NULL);
-    node->data = malloc(sizeof(int));
+	node->data = malloc(sizeof(int));
 	if (!node->data)
 		return (NULL);
-	*(int*)node->data = content;
+	*(int *)node->data = content;
 	node->next = NULL;
-    node->index = 0;
+	node->index = 0;
 	return (node);
 }
-
 
 void	ft_lstclear(t_list **lst)
 {
@@ -35,57 +46,64 @@ void	ft_lstclear(t_list **lst)
 	*lst = NULL;
 }
 
-void free_tab(char **tab)
+void	free_tab(char **tab)
 {
-    char **tmp = tab;
-    while (*tmp)
-    {
-        free(*tmp);
-        tmp++;
-    }
-    free(tab);
+	char	**tmp;
+
+	tmp = tab;
+	while (*tmp)
+	{
+		free(*tmp);
+		tmp++;
+	}
+	free(tab);
 }
 
-void list_assign(char **tab, t_list *heada)
+void	list_assign(char **tab, t_list *heada)
 {
-    int i = 0;
-    while (tab[i])
-    {   
-        t_list *node = ft_lstnew(ft_atoi(tab[i]));
-        if (node == NULL)
-        {
-            printf("Error\n");
-            return;
-        }
-        node->next = heada;
-        heada = node;
-        i++;
-    }
-}
-t_list *list_create(char **tab)
-{
-    t_list *heada = NULL;
-    t_list *tail = NULL;
-    t_list *node;
-    int i;
+	int		i;
+	t_list	*node;
 
-    i = 0;
-    while (tab[i])
-    {   
-        node = ft_lstnew(ft_atoi(tab[i]));
-        if (node == NULL)
-            return(write(2,"Error\n",7),NULL);
-        if (heada == NULL)
-        {
-            heada = node;
-            tail = node;
-        }
-        else 
-        {
-            tail->next = node;
-            tail = node;   
-        }
-        i++;
-    }
-    return (heada);
+	i = 0;
+	while (tab[i])
+	{
+		node = ft_lstnew(ft_atoi(tab[i]));
+		if (node == NULL)
+		{
+			printf("Error\n");
+			return ;
+		}
+		node->next = heada;
+		heada = node;
+		i++;
+	}
+}
+
+t_list	*list_create(char **tab)
+{
+	t_list	*heada;
+	t_list	*tail;
+	t_list	*node;
+	int	i;
+
+	heada = NULL;
+	i = 0;
+	while (tab[i])
+	{
+		node = ft_lstnew(ft_atoi(tab[i]));
+		if (node == NULL)
+			return (write(2, "Error\n", 7), NULL);
+		if (heada == NULL)
+		{
+			heada = node;
+			tail = node;
+		}
+		else
+		{
+			tail->next = node;
+			tail = node;
+		}
+		i++;
+	}
+	return (heada);
 }
