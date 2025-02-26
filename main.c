@@ -285,7 +285,6 @@ int check_bits (int q)
 
 void radix (t_list **heada, t_list **headb, int q)
 {
-    t_list *trava;
     int bits;
     int bit;
 
@@ -293,11 +292,10 @@ void radix (t_list **heada, t_list **headb, int q)
     bit = 0;
     while (bit < bits)
     {
-        trava = *heada;
         int count = q;
         while (count--)
         {
-            if ((trava->index >> bit ) & 1)
+            if (((*heada)->index >> bit ) & 1)
                 ra(heada);
             else
                 pb(heada,headb);
@@ -338,12 +336,12 @@ int main (int argc, char *argv[])
     check_list(heada);
     int q = indexing(heada);
     choice(&heada,&headb,q);
-    t_list *trav = heada;
-    while (trav)
-    {
-        printf("[%d]\n", *(int *)trav->data);
-        trav = trav->next;
-    }
+    // t_list *trav = heada;
+    // while (trav)
+    // {
+    //     printf("[%d] ", *(int *)trav->data);
+    //     trav = trav->next;
+    // }
     ft_lstclear(&heada);
   return (0);
 }

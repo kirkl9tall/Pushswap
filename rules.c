@@ -109,7 +109,6 @@ void rra(t_list **heada)
         second_last = last;
         last = last->next;
     }
-
     second_last->next = NULL;
     last->next = *heada;
     *heada = last;
