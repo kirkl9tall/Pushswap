@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:18 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/26 23:53:51 by abismail         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:25:08 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	list_assign(char **tab, t_list *heada)
 	i = 0;
 	while (tab[i])
 	{
-		node = ft_lstnew(ft_atoi(tab[i]));
+		node = ft_lstnew(ft_atoi(tab[i],heada,tab));
 		if (node == NULL)
 		{
-			printf("Error\n");
+			write(2, "Error\n", 6);
 			return ;
 		}
 		node->next = heada;
@@ -90,7 +90,7 @@ t_list	*list_create(char **tab)
 	i = 0;
 	while (tab[i])
 	{
-		node = ft_lstnew(ft_atoi(tab[i]));
+		node = ft_lstnew(ft_atoi(tab[i],heada,tab));
 		if (node == NULL)
 			return (write(2, "Error\n", 7), NULL);
 		if (heada == NULL)

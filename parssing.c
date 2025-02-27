@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:26:56 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/26 22:26:57 by abismail         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:28:12 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	atoi_check(char nptr, int signe, int num)
 {
 	if (signe == 1 && (num > INT_MAX / 10 || (num == INT_MAX / 10 && (nptr
 					- '0') > INT_MAX % 10)))
-		exit(write(2, "error: number exceeds INT_MAX\n", 31));
+			exit(write(2, "Error\n", 6));
 	else if (signe == -1 && (num > (long)INT_MAX / 10 || (num == (long)INT_MAX
 				/ 10 && (nptr - '0') > ((long)INT_MAX % 10 + 1))))
-		exit(write(2, "error: number is less than INT_MIN\n", 36));
+			exit(write(2, "Error\n", 6));
 }
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr,t_list  *heada,char ** tab)
 {
 	int	x;
 	int	signe;
@@ -37,14 +37,17 @@ int	ft_atoi(const char *nptr)
 		if (nptr[x++] == '-')
 			signe *= -1;
 	if (!nptr[x])
-		exit(write(2, "error in the number !\n", 23));
+		exit(write(2, "Error\n", 6));
 	while (nptr[x] >= '0' && nptr[x] <= '9')
 	{
 		atoi_check(nptr[x], signe, num);
 		num = num * 10 + (nptr[x++] - '0');
 	}
 	if (nptr[x] != '\0' && (!(nptr[x] >= '1' && nptr[x] <= '9')))
-		exit(write(2, "error in the number !\n", 23));
+	{
+		free_tab(tab);
+		return (ft_lstclear(&heada), exit(write(2, "Error\n", 6)), 0);
+	}
 	return (num * signe);
 }
 

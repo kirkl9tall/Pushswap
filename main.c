@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:04 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/26 23:58:38 by abismail         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:03:00 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*prepare_str(int argc, char *argv[])
 	{
 		counter = counter_args(argc, argv);
 		if (counter == -1)
-			exit(write(2, "error in the number !\n", 23));
+			exit(write(2, "Error\n", 6));
 		str = malloc(counter + 1);
 		if (str == NULL)
 			return (NULL);
@@ -108,7 +108,7 @@ int	main(int argc, char *argv[])
 
 	str = prepare_str(argc, argv);
 	if (str == NULL)
-		exit(write(2, "Error string khawi\n", 19));
+		exit((write(2, "Error\n", 6)));
 	tab = ft_split(str, ' ');
 	free(str);
 	heada = list_create(tab);
@@ -118,7 +118,7 @@ int	main(int argc, char *argv[])
 	if (!check_sort(heada))
 		choice(&heada, &headb, q);
 	else
-		write(1, "list already sorted !\n", 23);
+		exit(1);
 	ft_lstclear(&heada);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:09 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/26 22:27:10 by abismail         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:24:40 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char				*ft_strcat(char *dest, const char *src);
 int					counter_args(int argc, char *argv[]);
 char				**ft_split(char *s, char c);
 char				*prepare_str(int argc, char *argv[]);
-int					ft_atoi(const char *nptr);
+int					ft_atoi(const char *nptr,t_list * heada,char **tab);
 t_list				*ft_lstnew(int content);
 void				ft_lstclear(t_list **lst);
 void				sa(t_list *heada);
