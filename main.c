@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:04 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/27 14:03:00 by abismail         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:53:20 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,32 @@ int	indexing(t_list *heada)
 	return (qts);
 }
 
-char	*prepare_str(int argc, char *argv[])
+char	*alloc(int argc, char *argv[])
 {
 	char	*str;
 	int		counter;
-	int		i;
-	int		k;
 
-	counter = 0;
+	counter = counter_args(argc, argv);
+	if (counter == -1)
+		exit(write(2, "Error\n", 6));
+	str = malloc(counter + 1);
+	if (str == NULL)
+		return (NULL);
+	str[0] = '\0';
+	return (str);
+}
+
+char	*prepare_str(int argc, char *argv[])
+{
+	char	*str;
+
+	int (i), (k);
+	(i = 1);
 	if (argc < 2)
 		return (NULL);
 	else if (argc >= 2)
 	{
-		counter = counter_args(argc, argv);
-		if (counter == -1)
-			exit(write(2, "Error\n", 6));
-		str = malloc(counter + 1);
-		if (str == NULL)
-			return (NULL);
-		str[0] = '\0';
-		i = 1;
+		str = alloc(argc, argv);
 		while (i < argc)
 		{
 			k = 0;
@@ -104,7 +110,7 @@ int	main(int argc, char *argv[])
 	t_list	*headb;
 	char	*str;
 	char	**tab;
-	int	q;
+	int		q;
 
 	str = prepare_str(argc, argv);
 	if (str == NULL)

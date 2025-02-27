@@ -6,23 +6,23 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:26:56 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/27 14:28:12 by abismail         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:59:22 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-int	atoi_check(char nptr, int signe, int num)
+void	atoi_check(char nptr, int signe, int num)
 {
 	if (signe == 1 && (num > INT_MAX / 10 || (num == INT_MAX / 10 && (nptr
 					- '0') > INT_MAX % 10)))
-			exit(write(2, "Error\n", 6));
+		exit(write(2, "Error\n", 6));
 	else if (signe == -1 && (num > (long)INT_MAX / 10 || (num == (long)INT_MAX
 				/ 10 && (nptr - '0') > ((long)INT_MAX % 10 + 1))))
-			exit(write(2, "Error\n", 6));
+		exit(write(2, "Error\n", 6));
 }
 
-int	ft_atoi(const char *nptr,t_list  *heada,char ** tab)
+int	ft_atoi(const char *nptr, t_list *heada, char **tab)
 {
 	int	x;
 	int	signe;
