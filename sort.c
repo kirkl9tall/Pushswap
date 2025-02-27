@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:15 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/26 23:39:58 by abismail         ###   ########.fr       */
+/*   Updated: 2025/02/27 22:40:13 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,35 @@ void	sort2(t_list *heada)
 	if (*(int *)heada->data > *(int *)heada->next->data)
 		sa(heada);
 }
-
-void	sort3(t_list **heada, t_list **headb)
+void sort3(t_list **heada, t_list **headb)
 {
-	t_list	*min;
-	t_list	*trav;
+    int a = *(int *)(*heada)->data;
+    int b = *(int *)(*heada)->next->data;
+    int c = *(int *)(*heada)->next->next->data;
 
-	min = *heada;
-	trav = *heada;
-	while (trav)
-	{
-		if (*(int *)trav->data < *(int *)min->data)
-			min = trav;
-		trav = trav->next;
-	}
-	if (calc_exit(*heada, min) == 1)
-		while (*(int *)(*heada)->data != *(int *)min->data)
-			rra(heada);
-	else
-		while (*(int *)(*heada)->data != *(int *)min->data)
-			ra(heada);
-	pb(heada, headb);
-	sort2(*heada);
-	pa(heada, headb);
+    if (a > b && b > c)
+    {
+        sa(*heada);
+        rra(heada);
+    }
+    else if (a > c && c > b)
+    {
+        ra(heada);
+    }
+    else if (b > a && a > c)
+    {
+        sa(*heada);
+        rra(heada);
+    }
+    else if (b > c && c > a)
+    {
+        rra(heada);
+		sa(*heada);
+    }
+    else if (c > a && a > b)
+    {
+        sa(*heada);
+    }
 }
 
 void	sort4(t_list **heada, t_list **headb)
@@ -113,3 +119,5 @@ void	radix(t_list **heada, t_list **headb, int q)
 		bit++;
 	}
 }
+
+
