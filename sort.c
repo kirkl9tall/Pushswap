@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:15 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/27 22:51:31 by abismail         ###   ########.fr       */
+/*   Updated: 2025/02/27 23:15:35 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ void	sort3(t_list **heada, t_list **headb)
 		rra(heada);
 	}
 	else if (b > c && c > a)
-	{
-		rra(heada);
-		sa(*heada);
-	}
+		(rra(heada), sa(*heada));
 	else if (c > a && a > b)
 		sa(*heada);
 }
