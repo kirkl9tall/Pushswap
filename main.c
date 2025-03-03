@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:04 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/27 14:53:20 by abismail         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:32:08 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	check_list(t_list *heada)
 			if (*(int *)next->data == *(int *)trav->data)
 			{
 				ft_lstclear(&heada);
-				exit(write(2, "Error , Duplicated number !", 28));
+				write(2, "Error !\n", 9);
+				exit(1);
 			}
 			trav = trav->next;
 		}
@@ -69,7 +70,10 @@ char	*alloc(int argc, char *argv[])
 
 	counter = counter_args(argc, argv);
 	if (counter == -1)
-		exit(write(2, "Error\n", 6));
+	{
+		write(2, "Error !\n", 9);
+		exit(1);
+	}
 	str = malloc(counter + 1);
 	if (str == NULL)
 		return (NULL);
@@ -112,9 +116,13 @@ int	main(int argc, char *argv[])
 	char	**tab;
 	int		q;
 
+	headb = NULL;
 	str = prepare_str(argc, argv);
 	if (str == NULL)
-		exit((write(2, "Error\n", 6)));
+	{
+		write(2, "Error\n", 6);
+		exit(1);
+	}
 	tab = ft_split(str, ' ');
 	free(str);
 	heada = list_create(tab);
