@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:21 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/26 23:54:58 by abismail         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:40:54 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	choice(t_list **heada, t_list **headb, int q)
 	else if (q == 2)
 		sort2(*heada);
 	else if (q == 1)
-		write(1, " free w exit layr7em l walidin", 31);
+		write(1, "Error !\n", 9);
 	else
 		radix(heada, headb, q);
 }
