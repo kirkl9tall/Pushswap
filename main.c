@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:04 by abismail          #+#    #+#             */
-/*   Updated: 2025/03/03 20:43:04 by abismail         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:47:22 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	main(int argc, char *argv[])
 	if (!check_sort(heada))
 		choice(&heada, &headb, q);
 	else
-		return (ft_lstclear(&heada),exit(1),0);
+		return (ft_lstclear(&heada), exit(1), 0);
 	ft_lstclear(&heada);
 	return (0);
 }
