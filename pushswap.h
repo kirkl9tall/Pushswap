@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:27:09 by abismail          #+#    #+#             */
-/*   Updated: 2025/02/27 14:52:56 by abismail         ###   ########.fr       */
+/*   Updated: 2025/03/04 19:48:45 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ void				check_list(t_list *heada);
 int					indexing(t_list *heada);
 void				choice(t_list **heada, t_list **headb, int q);
 int					check_sort(t_list *heada);
+int					atoi_check(char nptr, int signe, int num);
 
 #endif
